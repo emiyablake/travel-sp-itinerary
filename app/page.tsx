@@ -90,7 +90,7 @@ function LocPicker({ onPick }: { onPick: (value: string) => void }) {
   const confirm = (value?: string) => onPick((value ?? q).trim());
 
   return (
-    <span className="relative ml-2 inline-flex items-center gap-1 align-middle">
+    <div className="relative ml-2 inline-flex items-center gap-1 align-middle">
       <input
         autoFocus
         value={q}
@@ -131,7 +131,7 @@ function LocPicker({ onPick }: { onPick: (value: string) => void }) {
           ))}
         </ul>
       )}
-    </span>
+    </div>
   );
 }
 
@@ -274,7 +274,7 @@ export default function Itinerario() {
                           </span>
                         )}
                         <div className="min-w-0 flex-1 text-sm">
-                          <p className="font-medium">
+                          <div className="font-medium">
                             {it.text}
                             {it.friends && (
                               <span
@@ -370,7 +370,7 @@ export default function Itinerario() {
                                   + loc
                                 </button>
                               )}
-                          </p>
+                          </div>
                           {it.note && (
                             <p className="mt-1 text-stone-600">{it.note}</p>
                           )}
