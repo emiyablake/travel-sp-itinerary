@@ -4,8 +4,10 @@ export interface Item {
   note?: string;
   friends?: boolean;
   link?: { label: string; url: string };
-  /** Tags iniciais definidas no código (ex.: amigos confirmados). */
+  /** Amigos confirmados no evento. */
   tags?: string[];
+  /** Local pré-definido (busca no Google Maps). */
+  loc?: string;
 }
 
 export interface Block {
@@ -35,14 +37,14 @@ export const days: Day[] = [
           { time: "6:25", text: "Saída de Florianópolis ✈️" },
           { time: "8:00", text: "Chegada em São Paulo (Aeroporto de Guarulhos)" },
           { time: "8:00–9:30", text: "Deslocamento" },
-          { time: "9:30–10:00", text: "Deixar as malas no hotel (Urban L)" },
-          { time: "10:00–13:00", text: "Museu da Imigração Japonesa" },
+          { time: "9:30–10:00", text: "Deixar as malas no hotel (Urban L)", loc: "Hotel Urban L São Paulo" },
+          { time: "10:00–13:00", text: "Museu da Imigração Japonesa", loc: "Museu Histórico da Imigração Japonesa São Paulo" },
         ],
       },
       {
         period: "Tarde",
         items: [
-          { time: "13:00-14:00", text: "Almoço no Liberdade Side Street", friends: true },
+          { time: "13:00-14:00", text: "Almoço no Liberdade Side Street", friends: true, loc: "Liberdade Side Street São Paulo" },
           { time: "14:00-16:00", text: "Check-in no hotel — banho e descanso" },
           { time: "16:00-19:00", text: "Lojinhas: Daiso + Korean Mart + Sogo Plaza" },
         ],
@@ -50,7 +52,7 @@ export const days: Day[] = [
       {
         period: "Noite",
         items: [
-          { time: "19:30-21:00", text: "Jantar na Liberdade — Shoo Loong Kan (fondue/hotpot)", friends: true },
+          { time: "19:30-21:00", text: "Jantar na Liberdade — Shoo Loong Kan (fondue/hotpot)", friends: true, loc: "SHOOLOONGKAN São Paulo" },
         ],
       },
     ],
@@ -65,14 +67,14 @@ export const days: Day[] = [
         period: "Manhã",
         items: [
           { time: "8:30–9:00", text: "Café da manhã no hotel" },
-          { time: "9:30–11:00", text: "Passeio pela Liberdade — Comix Book Shop" },
+          { time: "9:30–11:00", text: "Passeio pela Liberdade — Comix Book Shop", loc: "Comix Book Shop São Paulo" },
           { time: "12:00", text: "Checkout do hotel — Guardar as malas no maleiro" },
         ],
       },
       {
         period: "Tarde",
         items: [
-          { time: "12:30", text: "Almoço — Liberdade Side Street ou outro lugar que acharmos maneiro" },
+          { time: "12:30", text: "Almoço — Liberdade Side Street ou outro lugar que acharmos maneiro", loc: "Liberdade Side Street São Paulo" },
           { time: "14:00", text: "Pegar as malas + Uber até o Airbnb" },
           {
             time: "15:00", text: "Check-in no Airbnb",
@@ -83,7 +85,7 @@ export const days: Day[] = [
       {
         period: "Noite",
         items: [
-          { time: "18:00", text: "Shopping — Shopping Cidade São Paulo", friends: true },
+          { time: "18:00", text: "Shopping — Shopping Cidade São Paulo", friends: true, loc: "Shopping Cidade São Paulo" },
         ],
       },
     ],
@@ -101,7 +103,7 @@ export const days: Day[] = [
             note: "Magg Café, Café Floresta, Tem Umami, Pão de Queijo da Dona Zelda"
            },
           { time: "10:00", text: "Nova Era Games" },
-          { time: "11:00", text: "Kodak Mafia" },
+          { time: "11:00", text: "Kodak Mafia", loc: "Kodak Mafia São Paulo" },
           { time: "12:00", text: "Almoço Galeria Metrópole",
             note: ""
            },
@@ -111,7 +113,7 @@ export const days: Day[] = [
         period: "Tarde",
         items: [
           { time: "13:00", text: "Copan / Galeria do Rock / Kodak Mafia" },
-          { text: "25 de Março — Galeria Pagé" }
+          { text: "25 de Março — Galeria Pagé", loc: "Galeria Pagé São Paulo" }
         ],
       },
       {
@@ -122,6 +124,7 @@ export const days: Day[] = [
             text: "Jantar na Taverna Medieval",
             friends: true,
             tags: ["Dan"],
+            loc: "Taverna Medieval São Paulo",
             note: "⚠️ Precisa de reserva · são 2h de permanência · se for trajado(a) tem desconto · 15–25 min de Uber do Airbnb",
           },
         ],
@@ -166,15 +169,15 @@ export const days: Day[] = [
       {
         period: "Manhã",
         items: [
-          { time: "9:30–10:30", text: "Feirinha da Liberdade", friends: true },
-          { time: "11:00–12:00", text: "IMS (Instituto Moreira Salles)" },
+          { time: "9:30–10:30", text: "Feirinha da Liberdade", friends: true, loc: "Feira de Arte da Liberdade São Paulo" },
+          { time: "11:00–12:00", text: "IMS (Instituto Moreira Salles)", loc: "IMS Paulista" },
         ],
       },
       {
         period: "Tarde",
         items: [
           { time: "11:00–12:00", text: "Museus da Paulista — MASP + Japan House + Itaú Cultural" },
-          { text: "Almoço no Cidade Matarazzo" },
+          { text: "Almoço no Cidade Matarazzo", loc: "Cidade Matarazzo São Paulo" },
           { text: "Museus da Paulista — MASP + Japan House + Itaú Cultural" },
         ],
       },
@@ -218,11 +221,11 @@ export const days: Day[] = [
       {
         period: "10h–14h · Ipiranga",
         items: [
-          { text: "Museu de Zoologia (dinossauros! 🦕)" },
-          { text: "Museu do Ipiranga" },
+          { text: "Museu de Zoologia (dinossauros! 🦕)", loc: "Museu de Zoologia USP São Paulo" },
+          { text: "Museu do Ipiranga", loc: "Museu do Ipiranga São Paulo" },
           { text: "Monumento da Independência" },
           { text: "Palacete Rosa" },
-          { text: "Sesc Ipiranga" },
+          { text: "Sesc Ipiranga", loc: "Sesc Ipiranga São Paulo" },
           { text: "Almoço no Ipiranga?" },
         ],
       },
@@ -231,10 +234,11 @@ export const days: Day[] = [
         items: [
           {
             text: "Museu da Língua Portuguesa",
+            loc: "Museu da Língua Portuguesa São Paulo",
             note: "Fecha mais cedo (16h30) — ir primeiro. Terça = entrada gratuita!",
           },
-          { text: "Farol Santander (até 20h)" },
-          { text: "CAIXA Cultural (até 18h)" },
+          { text: "Farol Santander (até 20h)", loc: "Farol Santander São Paulo" },
+          { text: "CAIXA Cultural (até 18h)", loc: "CAIXA Cultural São Paulo" },
         ],
       },
       {
@@ -271,60 +275,76 @@ export const days: Day[] = [
 ];
 
 
-/** Ideias de restaurantes para as refeições ainda em aberto. */
-export const foodIdeas: { title: string; context: string; ideas: string[] }[] = [
+export interface FoodPlace {
+  name: string;
+  desc: string;
+  /** Busca aberta no Google Maps. */
+  query: string;
+}
+
+/** Indicações de comida por bairro — lugares da lista salva no Maps. */
+export const foodIdeas: { bairro: string; note?: string; places: FoodPlace[] }[] = [
   {
-    title: "Liberdade",
-    context: "Você citou “ou outro lugar que acharmos maneiro”",
-    ideas: [
-      "Rodízio de comida japonesa na Rua Galvão Bueno (o coração da Liberdade)",
-      "Udon, soba ou curry em restaurante de rua na Liberdade — rápido antes do checkout",
-      "Se passar pelo Centro: Bar do Estadão, lanche de pastrami icônico",
+    bairro: "Liberdade",
+    note: "Os que já estão no roteiro (Side Street, Shoo Loong Kan) ficaram com link direto nos cards acima.",
+    places: [
+      { name: "Temaki do Ailton", desc: "Sushi e temaki · ★ 4,7 na lista", query: "Temaki do Ailton São Paulo" },
+      { name: "Hello Kitty and Friends 2D (Eat Asia)", desc: "Café temático · ★ 4,6", query: "Hello Kitty and Friends 2D by Eat Asia São Paulo" },
+      { name: "Lulu Candy", desc: "Doces japoneses", query: "Lulu Candy Liberdade São Paulo" },
+      { name: "Jardim Dourado", desc: "Restaurante chinês · ★ 3,9", query: "Jardim Dourado Liberdade São Paulo" },
+      { name: "Jia He Chicken", desc: "Restaurante chinês · ★ 3,6", query: "Jia He Chicken Liberdade São Paulo" },
     ],
   },
   {
-    title: "Centro",
-    context: "Manhã no Centro, nada definido pra comer",
-    ideas: [
-      "Mercado Municipal (Mercadão) — sanduíche de mortadela, clássico turístico",
-      "Bar da Dona Onça, no térreo do Copan — comida de boteco premiada, já tá no roteiro da manhã",
-      "Galeria do Rock tem lanchonetes rápidas se quiser economizar tempo",
+    bairro: "Centro · República",
+    note: "Combina com os dias 3 e 7 (Centro).",
+    places: [
+      { name: "Infini Bar", desc: "Speakeasy no anexo do La Casserole · Largo do Arouche, 346", query: "Infini Bar São Paulo" },
+      { name: "Mercadão", desc: "Sanduíche de mortadela, clássico turístico", query: "Mercado Municipal de São Paulo" },
+      { name: "Bar da Dona Onça", desc: "Boteco premiado no térreo do Copan", query: "Bar da Dona Onça São Paulo" },
+      { name: "Bar do Estadão", desc: "Lanche de pastrami icônico", query: "Bar do Estadão São Paulo" },
     ],
   },
   {
-    title: "Dia 6 · Jantar com a irmã (Santa Cecília)",
-    context: "Ainda depende da confirmação dela",
-    ideas: [
-      "Perguntar pra ela o que rola perto dela 🙂",
-      "Região da Lapa/Barra Funda tem cantinas italianas e bares tradicionais",
-      "Se quiserem ir pro Bixiga: a Rua 13 de Maio concentra cantinas clássicas",
+    bairro: "Cidade Matarazzo · Bela Vista",
+    note: "Vale pro almoço do dia 5 — o dia já passa por lá.",
+    places: [
+      { name: "Lavva — Fogo e Carne", desc: "Korean barbecue do chef Paulo Shin · R. Itapeva, 569", query: "Lavva Fogo e Carne São Paulo" },
     ],
   },
   {
-    title: "Dia 7 · Café da manhã + almoço (Ipiranga)",
-    context: "Café “perto de casa” e almoço no Ipiranga estão em aberto",
-    ideas: [
-      "Café: qualquer padaria de bairro próxima ao Airbnb — deixar pra decidir na hora",
-      "Almoço: cantinas e botecos na Rua Bom Pastor e arredores do museu",
-      "Opção prática: o próprio Sesc Ipiranga tem restaurante por quilo",
+    bairro: "Paraíso · Vila Mariana",
+    places: [
+      { name: "D'Brescia Churrascaria", desc: "Rodízio clássico · ★ 4,4", query: "D'Brescia Churrascaria São Paulo" },
     ],
   },
   {
-    title: "Dia 7 · Jantar — KURAMOON ou MOMO?",
-    context: "As duas opções estavam listadas com “local a decidir”",
-    ideas: [
-      "Escolher uma das duas e reservar com antecedência (terça costuma ser tranquila)",
-      "Critério pra decidir: distância do rolê da Língua Portuguesa/Farol Santander",
-      "Lembrando que terça é dia de museu grátis — o dia promete!",
+    bairro: "Ipiranga",
+    note: "Café da manhã e almoço do dia 7.",
+    places: [
+      { name: "Cantinas e botecos da Rua Bom Pastor", desc: "Arredores do Museu do Ipiranga", query: "Rua Bom Pastor Ipiranga São Paulo restaurantes" },
+      { name: "Restaurante do Sesc Ipiranga", desc: "Opção prática por quilo", query: "Sesc Ipiranga restaurante São Paulo" },
     ],
   },
   {
-    title: "Dia 8 · Almoço de despedida",
-    context: "Voo sai 16h55 de Guarulhos",
-    ideas: [
-      "Almoçar perto do Airbnb sem correria — sair pra GRU pelo menos 2h antes do voo",
-      "Guarulhos fica longe: evitar almoço do outro lado da cidade",
-      "Se sobrar tempo no aeroporto: GRU tem praça de alimentação decente nos terminais",
+    bairro: "Santa Cecília · Lapa",
+    note: "Pro jantar do dia 6 com a tua irmã — ainda depende da confirmação dela.",
+    places: [
+      { name: "Cantinas italianas da Lapa", desc: "Bairro tradicional de cantinas, colado em Santa Cecília", query: "cantinas italianas Lapa São Paulo" },
+      { name: "Bixiga — Rua 13 de Maio", desc: "Cantinas clássicas italianas", query: "Rua 13 de Maio Bela Vista cantinas São Paulo" },
     ],
+  },
+  {
+    bairro: "Tatuapé",
+    note: "Só se o rolê levar pra lá.",
+    places: [
+      { name: "Cão Veio Tatuapé", desc: "Hamburgueria", query: "Cão Veio Tatuapé São Paulo" },
+      { name: "Bario Bar", desc: "Bar", query: "Bario Bar Tatuapé São Paulo" },
+    ],
+  },
+  {
+    bairro: "Volta pra casa (dia 8)",
+    note: "Voo sai 16h55 de Guarulhos: almoçar perto do Airbnb e sair pra GRU pelo menos 2h antes. Evitar almoço do outro lado da cidade.",
+    places: [],
   },
 ];

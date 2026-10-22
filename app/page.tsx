@@ -4,23 +4,33 @@ import { useEffect, useState } from "react";
 import { days, foodIdeas } from "./itinerario-data";
 
 const STORAGE_KEY = "itinerario-tags-v1";
+const LOCS_KEY = "itinerario-locs-v1";
 
 /** Chave estável de um evento: dia + período + texto. */
 const itemKey = (dayN: number, period: string, text: string) =>
   `${dayN}|${period}|${text}`;
+
+/** Link de busca aberta no Google Maps. */
+const mapsUrl = (query: string) =>
+  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 
 export default function Itinerario() {
   const [selected, setSelected] = useState(0);
   const [tags, setTags] = useState<Record<string, string[]>>({});
   const [adding, setAdding] = useState<string | null>(null);
   const [draft, setDraft] = useState("");
+  const [locs, setLocs] = useState<Record<string, string | null>>({});
+  const [addingLoc, setAddingLoc] = useState<string | null>(null);
+  const [draftLoc, setDraftLoc] = useState("");
   const day = days[selected];
 
-  // Carrega tags salvas no navegador (localStorage)
+  // Carrega amigos e locais salvos no navegador (localStorage)
   useEffect(() => {
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) setTags(JSON.parse(raw));
+      const rawTags = localStorage.getItem(STORAGE_KEY);
+      if (rawTags) setTags(JSON.parse(rawTags));
+      const rawLocs = localStorage.getItem(LOCS_KEY);
+      if (rawLocs) setLocs(JSON.parse(rawLocs));
     } catch {
       /* ignora dados corrompidos */
     }
@@ -49,6 +59,25 @@ export default function Itinerario() {
       tagsOf(key, base).filter((t) => t !== tag)
     );
   };
+
+  /** Local do evento: override salvo, ou o loc pré-definido no data. null = removido. */
+  const locOf = (key: string, base?: string) =>
+    locs[key] !== undefined ? locs[key] : (base ?? null);
+
+  const saveLoc = (key: string, value: string | null) => {
+    const next = { ...locs, [key]: value };
+    setLocs(next);
+    localStorage.setItem(LOCS_KEY, JSON.stringify(next));
+  };
+
+  const addLoc = (key: string, base?: string) => {
+    const t = draftLoc.trim();
+    if (t) saveLoc(key, t);
+    setDraftLoc("");
+    setAddingLoc(null);
+  };
+
+  const removeLoc = (key: string) => saveLoc(key, null);
 
   return (
     <div className="min-h-full bg-[#faf9f7] text-stone-900">
@@ -108,6 +137,7 @@ export default function Itinerario() {
                   .map((it, i) => {
                     const key = itemKey(day.n, b.period, it.text);
                     const itemTags = tagsOf(key, it.tags);
+                    const itemLoc = locOf(key, it.loc);
                     return (
                       <li
                         key={i}
@@ -139,13 +169,13 @@ export default function Itinerario() {
                             {itemTags.map((t) => (
                               <span
                                 key={t}
-                                className="ml-2 inline-flex items-center gap-1 rounded-full border border-sky-200 bg-sky-50 px-2 py-0.5 text-xs font-normal text-sky-800"
+                                className="ml-2 inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-xs font-normal text-emerald-800"
                               >
                                 {t}
                                 <button
                                   onClick={() => removeTag(key, t, it.tags)}
-                                  title={`Remover tag ${t}`}
-                                  className="text-sky-400 hover:text-sky-700"
+                                  title={`Remover amigo ${t}`}
+                                  className="text-emerald-400 hover:text-emerald-700"
                                 >
                                   ×
                                 </button>
@@ -164,7 +194,7 @@ export default function Itinerario() {
                                       setAdding(null);
                                     }
                                   }}
-                                  placeholder="Nome da tag…"
+                                  placeholder="Nome do amigo…"
                                   className="w-28 rounded-full border border-stone-300 px-2 py-0.5 text-xs font-normal outline-none focus:border-stone-500"
                                 />
                                 <button
@@ -180,10 +210,66 @@ export default function Itinerario() {
                                   setAdding(key);
                                   setDraft("");
                                 }}
-                                title="Adicionar tag"
+                                title="Adicionar amigo"
                                 className="ml-2 inline-block rounded-full border border-dashed border-stone-300 px-2 py-0.5 align-middle text-xs font-normal text-stone-500 hover:border-stone-500 hover:text-stone-800"
                               >
-                                + tag
+                                + amigo
+                              </button>
+                            )}
+                            {itemLoc && (
+                              <a
+                                href={mapsUrl(itemLoc)}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                title={`Abrir "${itemLoc}" no Google Maps`}
+                                className="ml-2 inline-flex items-center gap-1 rounded-full border border-rose-200 bg-rose-50 px-2 py-0.5 text-xs font-normal text-rose-700 hover:border-rose-400"
+                              >
+                                📍 {itemLoc.replace(/ São Paulo$/, "")}
+                                <button
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    removeLoc(key);
+                                  }}
+                                  title="Remover local"
+                                  className="text-rose-400 hover:text-rose-700"
+                                >
+                                  ×
+                                </button>
+                              </a>
+                            )}
+                            {addingLoc === key ? (
+                              <span className="ml-2 inline-flex items-center gap-1 align-middle">
+                                <input
+                                  autoFocus
+                                  value={draftLoc}
+                                  onChange={(e) => setDraftLoc(e.target.value)}
+                                  onKeyDown={(e) => {
+                                    if (e.key === "Enter") addLoc(key, it.loc);
+                                    if (e.key === "Escape") {
+                                      setDraftLoc("");
+                                      setAddingLoc(null);
+                                    }
+                                  }}
+                                  placeholder="Lugar…"
+                                  className="w-28 rounded-full border border-stone-300 px-2 py-0.5 text-xs font-normal outline-none focus:border-stone-500"
+                                />
+                                <button
+                                  onClick={() => addLoc(key, it.loc)}
+                                  className="rounded-full bg-stone-900 px-2 py-0.5 text-xs font-semibold text-white"
+                                >
+                                  ok
+                                </button>
+                              </span>
+                            ) : (
+                              <button
+                                onClick={() => {
+                                  setAddingLoc(key);
+                                  setDraftLoc("");
+                                }}
+                                title="Adicionar local (abre no Google Maps)"
+                                className="ml-2 inline-block rounded-full border border-dashed border-stone-300 px-2 py-0.5 align-middle text-xs font-normal text-stone-500 hover:border-stone-500 hover:text-stone-800"
+                              >
+                                + loc
                               </button>
                             )}
                           </p>
@@ -247,28 +333,42 @@ export default function Itinerario() {
             <div className="mt-4 space-y-2">
               {foodIdeas.map((f, i) => (
                 <details
-                  key={f.title}
+                  key={f.bairro}
                   className="group rounded-xl border border-stone-200 bg-[#faf9f7] px-3 py-2.5"
                   open={i === 0}
                 >
                   <summary className="flex cursor-pointer list-none items-center justify-between text-sm font-medium [&::-webkit-details-marker]:hidden">
-                    {f.title}
+                    {f.bairro}
                     <span className="text-stone-400 transition-transform group-open:rotate-180">
                       ▾
                     </span>
                   </summary>
-                  <p className="mt-1 text-xs italic text-stone-500">{f.context}</p>
-                  <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-stone-700">
-                    {f.ideas.map((idea) => (
-                      <li key={idea}>{idea}</li>
-                    ))}
-                  </ul>
+                  {f.note && (
+                    <p className="mt-1 text-xs italic text-stone-500">{f.note}</p>
+                  )}
+                  {f.places.length > 0 && (
+                    <ul className="mt-2 space-y-1.5 text-sm">
+                      {f.places.map((p) => (
+                        <li key={p.name}>
+                          <a
+                            href={mapsUrl(p.query)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-medium text-sky-700 underline underline-offset-2"
+                          >
+                            {p.name} ↗
+                          </a>
+                          <span className="text-stone-600"> — {p.desc}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </details>
               ))}
             </div>
 
             <p className="mt-4 text-xs text-stone-500">
-              Indicações são só pontos de partida — confirme endereço e funcionamento antes.
+              Vindas da tua lista salva no Maps — confirme endereço, nota e funcionamento antes.
             </p>
           </div>
         </section>

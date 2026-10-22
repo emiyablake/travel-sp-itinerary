@@ -34,7 +34,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               href="/"
               className="w-24 shrink-0 text-sm font-bold tracking-tight text-stone-900"
             >
-              ✈️ Viagem SP
+              ✈️ SP
             </Link>
             <div className="absolute left-1/2 -translate-x-1/2">
               <SiteNav />
