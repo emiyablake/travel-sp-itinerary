@@ -14,6 +14,127 @@ const itemKey = (dayN: number, period: string, text: string) =>
 const mapsUrl = (query: string) =>
   `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 
+/**
+ * Interpreta um valor de loc: "Nome" abre a busca pelo nome no Maps;
+ * "Nome@lat,lon" (vindo de uma sugestão) abre o pino exato do lugar.
+ */
+const parseLoc = (value: string): { label: string; url: string } => {
+  const at = value.lastIndexOf("@");
+  if (at > 0) {
+    return {
+      label: value.slice(0, at),
+      url: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+        value.slice(at + 1)
+      )}`,
+    };
+  }
+  return { label: value.replace(/ São Paulo$/, ""), url: mapsUrl(value) };
+};
+
+interface LocSuggestion {
+  label: string;
+  value: string;
+}
+
+/**
+ * Input de local com sugestões enquanto digita (OpenStreetMap/Nominatim,
+ * limitado a São Paulo). Ao escolher uma sugestão, o chip final abre o
+ * pino exato no Google Maps.
+ */
+function LocPicker({ onPick }: { onPick: (value: string) => void }) {
+  const [q, setQ] = useState("");
+  const [debounced, setDebounced] = useState("");
+  const [sugs, setSugs] = useState<LocSuggestion[]>([]);
+  const [show, setShow] = useState(false);
+
+  // debounce da digitação (Nominatim pede no máx. 1 req/s)
+  useEffect(() => {
+    const t = setTimeout(() => setDebounced(q.trim()), 350);
+    return () => clearTimeout(t);
+  }, [q]);
+
+  // busca sugestões dentro da caixa de São Paulo
+  useEffect(() => {
+    if (debounced.length < 3) {
+      setSugs([]);
+      return;
+    }
+    let alive = true;
+    const url =
+      "https://nominatim.openstreetmap.org/search?format=jsonv2&limit=5" +
+      "&countrycodes=br&accept-language=pt-BR&bounded=1" +
+      "&viewbox=-46.95,-23.35,-46.25,-23.85" +
+      `&q=${encodeURIComponent(debounced)}`;
+    fetch(url)
+      .then((r) => (r.ok ? r.json() : []))
+      .then(
+        (data: { display_name?: string; lat?: string; lon?: string }[]) => {
+          if (!alive || !Array.isArray(data)) return;
+          setSugs(
+            data
+              .filter((d) => d.display_name && d.lat && d.lon)
+              .map((d) => {
+                const label = d.display_name!.split(",")[0].trim();
+                return { label, value: `${label}@${d.lat},${d.lon}` };
+              })
+          );
+          setShow(true);
+        }
+      )
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, [debounced]);
+
+  const confirm = (value?: string) => onPick((value ?? q).trim());
+
+  return (
+    <span className="relative ml-2 inline-flex items-center gap-1 align-middle">
+      <input
+        autoFocus
+        value={q}
+        title="Digite para ver sugestões de lugares em São Paulo"
+        onChange={(e) => {
+          setQ(e.target.value);
+          setShow(true);
+        }}
+        onFocus={() => setShow(true)}
+        onBlur={() => setTimeout(() => setShow(false), 150)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") confirm();
+          if (e.key === "Escape") confirm("");
+        }}
+        placeholder="Lugar…"
+        className="w-32 rounded-full border border-stone-300 px-2 py-0.5 text-xs font-normal outline-none focus:border-stone-500"
+      />
+      <button
+        onClick={() => confirm()}
+        className="rounded-full bg-stone-900 px-2 py-0.5 text-xs font-semibold text-white"
+      >
+        ok
+      </button>
+      {show && sugs.length > 0 && (
+        <ul className="absolute left-0 top-full z-20 mt-1 max-h-56 w-64 max-w-[70vw] overflow-auto rounded-xl border border-stone-200 bg-white py-1 shadow-lg">
+          {sugs.map((s, idx) => (
+            <li key={`${s.value}-${idx}`}>
+              <button
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  confirm(s.value);
+                }}
+                className="block w-full px-2.5 py-1.5 text-left text-xs font-normal text-stone-700 hover:bg-stone-100"
+              >
+                {s.label}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </span>
+  );
+}
+
 export default function Itinerario() {
   const [selected, setSelected] = useState(0);
   const [tags, setTags] = useState<Record<string, string[]>>({});
@@ -21,7 +142,6 @@ export default function Itinerario() {
   const [draft, setDraft] = useState("");
   const [locs, setLocs] = useState<Record<string, string | null>>({});
   const [addingLoc, setAddingLoc] = useState<string | null>(null);
-  const [draftLoc, setDraftLoc] = useState("");
   const day = days[selected];
 
   // Carrega amigos e locais salvos no navegador (localStorage)
@@ -70,10 +190,8 @@ export default function Itinerario() {
     localStorage.setItem(LOCS_KEY, JSON.stringify(next));
   };
 
-  const addLoc = (key: string, base?: string) => {
-    const t = draftLoc.trim();
-    if (t) saveLoc(key, t);
-    setDraftLoc("");
+  const addLoc = (key: string, value: string) => {
+    if (value) saveLoc(key, value);
     setAddingLoc(null);
   };
 
@@ -216,62 +334,42 @@ export default function Itinerario() {
                                 + amigo
                               </button>
                             )}
-                            {itemLoc && (
-                              <a
-                                href={mapsUrl(itemLoc)}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                title={`Abrir "${itemLoc}" no Google Maps`}
-                                className="ml-2 inline-flex items-center gap-1 rounded-full border border-rose-200 bg-rose-50 px-2 py-0.5 text-xs font-normal text-rose-700 hover:border-rose-400"
-                              >
-                                📍 {itemLoc.replace(/ São Paulo$/, "")}
+                            {itemLoc
+                              ? (() => {
+                                  const loc = parseLoc(itemLoc);
+                                  return (
+                                    <a
+                                      href={loc.url}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      title={`Abrir "${loc.label}" no Google Maps`}
+                                      className="ml-2 inline-flex items-center gap-1 rounded-full border border-rose-200 bg-rose-50 px-2 py-0.5 text-xs font-normal text-rose-700 hover:border-rose-400"
+                                    >
+                                      📍 {loc.label}
+                                      <button
+                                        onClick={(e) => {
+                                          e.preventDefault();
+                                          removeLoc(key);
+                                        }}
+                                        title="Remover local"
+                                        className="text-rose-400 hover:text-rose-700"
+                                      >
+                                        ×
+                                      </button>
+                                    </a>
+                                  );
+                                })()
+                              : addingLoc === key ? (
+                                <LocPicker onPick={(v) => addLoc(key, v)} />
+                              ) : (
                                 <button
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    removeLoc(key);
-                                  }}
-                                  title="Remover local"
-                                  className="text-rose-400 hover:text-rose-700"
+                                  onClick={() => setAddingLoc(key)}
+                                  title="Adicionar local (abre no Google Maps)"
+                                  className="ml-2 inline-block rounded-full border border-dashed border-stone-300 px-2 py-0.5 align-middle text-xs font-normal text-stone-500 hover:border-stone-500 hover:text-stone-800"
                                 >
-                                  ×
+                                  + loc
                                 </button>
-                              </a>
-                            )}
-                            {addingLoc === key ? (
-                              <span className="ml-2 inline-flex items-center gap-1 align-middle">
-                                <input
-                                  autoFocus
-                                  value={draftLoc}
-                                  onChange={(e) => setDraftLoc(e.target.value)}
-                                  onKeyDown={(e) => {
-                                    if (e.key === "Enter") addLoc(key, it.loc);
-                                    if (e.key === "Escape") {
-                                      setDraftLoc("");
-                                      setAddingLoc(null);
-                                    }
-                                  }}
-                                  placeholder="Lugar…"
-                                  className="w-28 rounded-full border border-stone-300 px-2 py-0.5 text-xs font-normal outline-none focus:border-stone-500"
-                                />
-                                <button
-                                  onClick={() => addLoc(key, it.loc)}
-                                  className="rounded-full bg-stone-900 px-2 py-0.5 text-xs font-semibold text-white"
-                                >
-                                  ok
-                                </button>
-                              </span>
-                            ) : (
-                              <button
-                                onClick={() => {
-                                  setAddingLoc(key);
-                                  setDraftLoc("");
-                                }}
-                                title="Adicionar local (abre no Google Maps)"
-                                className="ml-2 inline-block rounded-full border border-dashed border-stone-300 px-2 py-0.5 align-middle text-xs font-normal text-stone-500 hover:border-stone-500 hover:text-stone-800"
-                              >
-                                + loc
-                              </button>
-                            )}
+                              )}
                           </p>
                           {it.note && (
                             <p className="mt-1 text-stone-600">{it.note}</p>
