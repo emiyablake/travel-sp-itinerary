@@ -4,8 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const links = [
-  { href: "/", label: "Guia de Museus" },
-  { href: "/itinerario", label: "Itinerário" },
+  { href: "/", label: "Itinerário" },
+  { href: "/guia", label: "Guia de Museus" },
 ];
 
 export default function SiteNav() {

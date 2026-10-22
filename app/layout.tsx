@@ -15,9 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Guia de Museus de SP · 28/10–3/11/2026",
+  title: "Viagem SP · 28 out – 4 nov 2026",
   description:
-    "Exposições em cartaz em São Paulo de 28 de outubro a 3 de novembro de 2026 — guia com horários, preços, gratuidades e rotas.",
+    "Itinerário dia a dia da viagem a São Paulo (28/10 a 4/11/2026) com guia de museus, exposições, horários e gratuidades.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
