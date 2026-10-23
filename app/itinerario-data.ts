@@ -35,7 +35,7 @@ export const days: Day[] = [
         items: [
           { time: "5:00–6:00", text: "Deslocamento" },
           { time: "6:25", text: "Saída de Florianópolis ✈️" },
-          { time: "8:00", text: "Chegada em São Paulo (Aeroporto de Guarulhos)" },
+          { time: "8:00", text: "Chegada em São Paulo", note:"Aeroporto de Guarulhos" },
           { time: "8:00–9:30", text: "Deslocamento" },
           { time: "9:30–10:00", text: "Deixar as malas no hotel (Urban L)", loc: "Hotel Urban L São Paulo" },
           { time: "10:00–13:00", text: "Museu da Imigração Japonesa", loc: "Museu Histórico da Imigração Japonesa São Paulo" },
@@ -45,8 +45,10 @@ export const days: Day[] = [
         period: "Tarde",
         items: [
           { time: "13:00-14:00", text: "Almoço no Liberdade Side Street", friends: true, loc: "Liberdade Side Street São Paulo" },
-          { time: "14:00-16:00", text: "Check-in no hotel — banho e descanso" },
-          { time: "16:00-19:00", text: "Lojinhas: Daiso + Korean Mart + Sogo Plaza" },
+          { time: "14:00-16:00", text: "Check-in no hotel", note:"banho e descanso" },
+          { time: "16:00-19:00", text: "Lojinhas da Liberdade",
+            note: "Daiso,  Korean Mart,  Sogo Plaza"
+           },
         ],
       },
       {
@@ -67,19 +69,22 @@ export const days: Day[] = [
         period: "Manhã",
         items: [
           { time: "8:30–9:00", text: "Café da manhã no hotel" },
-          { time: "9:30–11:00", text: "Passeio pela Liberdade — Comix Book Shop", loc: "Comix Book Shop São Paulo" },
-          { time: "12:00", text: "Checkout do hotel — Guardar as malas no maleiro" },
+          { time: "9:30–11:00", text: "Passeio pela Liberdade", note:"Comix Book Shop", 
+            loc: "Comix Book Shop São Paulo" },
+          { time: "12:00", text: "Checkout do hotel", note: "Guardar as malas no maleiro" },
         ],
       },
       {
         period: "Tarde",
         items: [
-          { time: "12:30", text: "Almoço — Liberdade Side Street ou outro lugar que acharmos maneiro", loc: "Liberdade Side Street São Paulo" },
+          { time: "12:30", text: "Almoço", note: "Liberdade Side Street ou outro lugar que acharmos maneiro"},
           { time: "14:00", text: "Pegar as malas + Uber até o Airbnb" },
           {
             time: "15:00", text: "Check-in no Airbnb",
           },
-          { time: "16:00-18:00", text: "Outlets — Converse, Vans, Rip Curl" },
+          { time: "16:00-18:00", text: "Outlets em Pinheiros",
+            note: "Converse, Vans, Rip Curl"
+           },
         ],
       },
       {
@@ -105,15 +110,16 @@ export const days: Day[] = [
           { time: "10:00", text: "Nova Era Games" },
           { time: "11:00", text: "Kodak Mafia", loc: "Kodak Mafia São Paulo" },
           { time: "12:00", text: "Almoço Galeria Metrópole",
-            note: ""
+            note: "Koufu (Loja 14), Sanduteca (Térreo, Loja 9), La Baguette (2º andar, Loja 26)"
            },
         ],
       },
       {
         period: "Tarde",
         items: [
-          { time: "13:00", text: "Copan / Galeria do Rock / Kodak Mafia" },
-          { text: "25 de Março — Galeria Pagé", loc: "Galeria Pagé São Paulo" }
+          { time: "13:00", text: "Galeria do Rock" },
+          { time: "14:30", text: "25 de Março" },
+          { time: "16:00", text: "Galeria Pagé" }
         ],
       },
       {
@@ -176,14 +182,17 @@ export const days: Day[] = [
       {
         period: "Tarde",
         items: [
-          { time: "11:00–12:00", text: "Museus da Paulista — MASP + Japan House + Itaú Cultural" },
-          { text: "Almoço no Cidade Matarazzo", loc: "Cidade Matarazzo São Paulo" },
-          { text: "Museus da Paulista — MASP + Japan House + Itaú Cultural" },
+          { time: "12:00–14:00", text: "MASP" },
+          { time: "14:00–15:00", text: "Almoço no Cidade Matarazzo", loc: "Cidade Matarazzo São Paulo" },
+          { time: "15:00–16:00", text: "Japan House" },
+          { time: "16:00–17:00", text: "Itaú Cultural" },
         ],
       },
       {
         period: "Noite",
-        items: [{  time: "18:00–9:30", text: "Barra Funda", friends: true }],
+        items: [
+          {  time: "19:00/20:00", text: "Barra Funda", note: "mamae bar, suei bar"}
+        ],
       },
     ],
   },
@@ -196,10 +205,9 @@ export const days: Day[] = [
       {
         period: "Dia",
         items: [
-          {
-            time: "11:00–16:00",
-            text: "Tattoo Amor",
-          },
+          {time: "10:00", text: "café da manhã"},
+          {time: "11:00–16:00", text: "Tattoo Amor"},
+          {time: "16:00–19:00", text: "Livre/Descanso"},
         ],
       },
       {
@@ -216,38 +224,48 @@ export const days: Day[] = [
     blocks: [
       {
         period: "Manhã",
-        items: [{ text: "Café da manhã — a decidir, perto de “casa”" }],
+        items: [{ time: "8:30", text: "Café da manhã", note:"a decidir, perto de “casa”" }],
       },
       {
         period: "10h–14h · Ipiranga",
         items: [
-          { text: "Museu de Zoologia (dinossauros! 🦕)", loc: "Museu de Zoologia USP São Paulo" },
-          { text: "Museu do Ipiranga", loc: "Museu do Ipiranga São Paulo" },
-          { text: "Monumento da Independência" },
-          { text: "Palacete Rosa" },
-          { text: "Sesc Ipiranga", loc: "Sesc Ipiranga São Paulo" },
-          { text: "Almoço no Ipiranga?" },
+          { time: "10:00-11:30", text: "Museu de Zoologia (dinossauros! 🦕)", loc: "Museu de Zoologia USP São Paulo" },
+          { time: "11:30-12:30", text: "Museu do Ipiranga", loc: "Museu do Ipiranga São Paulo" },
+          { time: "12:30-13:30", text: "Sesc Ipiranga", loc: "Sesc Ipiranga São Paulo" },
+          { time: "13:30-14:00", text: "Almoço" },
+          { time: "14:10", text: "Palacete Rosa" },
+          { time: "14:15", text: "Monumento da Independência" },
         ],
       },
       {
         period: "15h–18h · Centro",
         items: [
           {
+            time: "15:00-16:00",
             text: "Museu da Língua Portuguesa",
             loc: "Museu da Língua Portuguesa São Paulo",
-            note: "Fecha mais cedo (16h30) — ir primeiro. Terça = entrada gratuita!",
+            note: "Fecha as 16h30 — ir primeiro. Terça = entrada gratuita!",
           },
-          { text: "Farol Santander (até 20h)", loc: "Farol Santander São Paulo" },
-          { text: "CAIXA Cultural (até 18h)", loc: "CAIXA Cultural São Paulo" },
+          { 
+            time: "16:00-17:00",
+            text: "CAIXA Cultural (até 18h)", loc: "CAIXA Cultural São Paulo",
+            note: "Fecha as 18h"
+           },
+          { 
+            time: "17:00-18:00",
+            text: "Farol Santander", loc: "Farol Santander São Paulo",
+            note: "Fecha as 20h"
+           },
         ],
       },
       {
         period: "Noite",
         items: [
           {
-            text: "Jantar — KURAMOON // MOMO",
+            time: "19:00/20:00",
+            text: "Jantar",
             friends: true,
-            note: "Local a decidir",
+            note: "KURAMOON // MOMO",
           },
         ],
       },
@@ -260,8 +278,12 @@ export const days: Day[] = [
     region: "Volta pra casa",
     blocks: [
       {
-        period: "Dia",
-        items: [{ text: "Almoço de despedida", friends: true }],
+        period: "Manhã",
+        items: [
+          { time: "9:00/9:30", text: "Café da manhã", friends: true },
+          { time: "11:00", text: "Check-out", friends: true },
+          { time: "12:00", text: "Almoço de despedida", note: "escolher local", friends: true }
+        ],
       },
       {
         period: "Tarde",

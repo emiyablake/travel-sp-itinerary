@@ -423,7 +423,7 @@ export default function Itinerario() {
             <p className="text-xs font-semibold uppercase tracking-widest text-stone-500">
               Restaurantes e afinz
             </p>
-            <h2 className="mt-1 text-xl font-bold">Ideias de lugares para fazer uma boquinha</h2>
+            <h2 className="mt-1 text-xl font-bold">Lugares para fazer uma boquinha, comer uns docinhos</h2>
             <p className="mt-0.5 text-sm text-stone-600">
               Separado por bairro — toque pra abrir.
             </p>
