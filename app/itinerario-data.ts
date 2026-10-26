@@ -308,13 +308,15 @@ export interface FoodPlace {
 export const foodIdeas: { bairro: string; note?: string; places: FoodPlace[] }[] = [
   {
     bairro: "Liberdade",
-    note: "Os que já estão no roteiro (Side Street, Shoo Loong Kan) ficaram com link direto nos cards acima.",
+    note: "",
     places: [
       { name: "Temaki do Ailton", desc: "Sushi e temaki · ★ 4,7 na lista", query: "Temaki do Ailton São Paulo" },
       { name: "Hello Kitty and Friends 2D (Eat Asia)", desc: "Café temático · ★ 4,6", query: "Hello Kitty and Friends 2D by Eat Asia São Paulo" },
       { name: "Lulu Candy", desc: "Doces japoneses", query: "Lulu Candy Liberdade São Paulo" },
       { name: "Jardim Dourado", desc: "Restaurante chinês · ★ 3,9", query: "Jardim Dourado Liberdade São Paulo" },
       { name: "Jia He Chicken", desc: "Restaurante chinês · ★ 3,6", query: "Jia He Chicken Liberdade São Paulo" },
+      { name: "Kyoto", desc: "Café e restaurante · R. Thomaz Gonzaga, 45B", query: "Kyoto Café Rua Thomaz Gonzaga Liberdade São Paulo" },
+      { name: "Bodogami", desc: "Restaurante e cafeteria de jogos · Av. da Liberdade, 456", query: "Bodogami Av. da Liberdade 456 São Paulo" },
     ],
   },
   {
@@ -325,6 +327,7 @@ export const foodIdeas: { bairro: string; note?: string; places: FoodPlace[] }[]
       { name: "Mercadão", desc: "Sanduíche de mortadela, clássico turístico", query: "Mercado Municipal de São Paulo" },
       { name: "Bar da Dona Onça", desc: "Boteco premiado no térreo do Copan", query: "Bar da Dona Onça São Paulo" },
       { name: "Bar do Estadão", desc: "Lanche de pastrami icônico", query: "Bar do Estadão São Paulo" },
+      { name: "Sanduteca", desc: "Galeria Metrópole, térreo loja 9 · Av. São Luís, 187 — já tá anotada no almoço do dia 3", query: "Sanduteca Galeria Metrópole São Paulo" },
     ],
   },
   {
@@ -341,6 +344,51 @@ export const foodIdeas: { bairro: string; note?: string; places: FoodPlace[] }[]
     ],
   },
   {
+    bairro: "Pinheiros",
+    note: "Combina com o dia 2 (outlets à tarde) ou com uma ida ao Airbnb.",
+    places: [
+      { name: "Fan Hour", desc: "Hamburgueria geek · R. Artur de Azevedo, 898", query: "Fan Hour Rua Artur de Azevedo 898 São Paulo" },
+      { name: "Bodega Pepito", desc: "Petiscos · R. dos Pinheiros, 320", query: "Bodega Pepito Rua dos Pinheiros 320 São Paulo" },
+      { name: "Izakaya Otoshi", desc: "Izakaya · R. Padre Carvalho, 335", query: "Izakaya Otoshi Rua Padre Carvalho 335 São Paulo" },
+    ],
+  },
+  {
+    bairro: "Consolação",
+    places: [
+      { name: "Bráz Elettrica", desc: "Pizzaria · R. Antônio Carlos, 328", query: "Bráz Elettrica Rua Antônio Carlos 328 São Paulo" },
+    ],
+  },
+  {
+    bairro: "Vila Buarque",
+    places: [
+      { name: "Holy Tavern", desc: "Bar · R. Dr. Cesário Mota Júnior, 531", query: "Holy Tavern Rua Dr. Cesário Mota Júnior 531 São Paulo" },
+    ],
+  },
+  {
+    bairro: "Moema",
+    places: [
+      { name: "Canton Moema", desc: "Restaurante chifa · Av. Juriti, 587", query: "Canton Moema Av. Juriti 587 São Paulo" },
+    ],
+  },
+  {
+    bairro: "Belenzinho",
+    places: [
+      { name: "Meizizi", desc: "Restaurante asiático · Rua Taquari, 934", query: "Meizizi Rua Taquari 934 São Paulo" },
+    ],
+  },
+  {
+    bairro: "Indianópolis",
+    places: [
+      { name: "Saiko Katsu Sando", desc: "Comida asiática · R. Normândia, 102", query: "Saiko Katsu Sando Rua Normândia 102 São Paulo" },
+    ],
+  },
+  {
+    bairro: "Itaim Bibi",
+    places: [
+      { name: "Marmotta", desc: "Restaurante italiano · R. Manuel Guedes, 281", query: "Marmotta Rua Manuel Guedes 281 São Paulo" },
+    ],
+  },
+  {
     bairro: "Ipiranga",
     note: "Café da manhã e almoço do dia 7.",
     places: [
@@ -350,7 +398,7 @@ export const foodIdeas: { bairro: string; note?: string; places: FoodPlace[] }[]
   },
   {
     bairro: "Santa Cecília · Lapa",
-    note: "Pro jantar do dia 6 com a tua irmã — ainda depende da confirmação dela.",
+    note: "",
     places: [
       { name: "Cantinas italianas da Lapa", desc: "Bairro tradicional de cantinas, colado em Santa Cecília", query: "cantinas italianas Lapa São Paulo" },
       { name: "Bixiga — Rua 13 de Maio", desc: "Cantinas clássicas italianas", query: "Rua 13 de Maio Bela Vista cantinas São Paulo" },
