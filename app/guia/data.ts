@@ -538,7 +538,7 @@ export const statusLabel: Record<Status, string> = {
 };
 
 export const statusColor: Record<Status, string> = {
-  confirmed: "bg-emerald-100 text-emerald-800 border-emerald-200",
-  transition: "bg-amber-100 text-amber-800 border-amber-200",
-  rotative: "bg-sky-100 text-sky-800 border-sky-200",
+  confirmed: "bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-950 dark:text-emerald-300 dark:border-emerald-800",
+  transition: "bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-950 dark:text-amber-300 dark:border-amber-800",
+  rotative: "bg-sky-100 text-sky-800 border-sky-200 dark:bg-sky-950 dark:text-sky-300 dark:border-sky-800",
 };
