@@ -146,20 +146,17 @@ export const days: Day[] = [
       {
         period: "Dia inteiro",
         items: [
-          { text: "Hopi Hari — Hora do Horror 🎃", note: "Ingressos no email" },
-          { text: "Saída do MASP (ponto de encontro/passeio)" },
+          { 
+            time: "9:00",
+            text: "Saída do MASP" 
+          },
+          { 
+            text: "Hopi Hari — Hora do Horror 🎃" },
           {
-            text: "Links úteis:",
+            text: "Ingressos",
             link: {
               label: "Hora do Horror Hopi Hari 2026",
-              url: "https://www.hopihari.com.br/hora-do-horror?data_selecionada=31/10/2026",
-            },
-          },
-          {
-            text: "",
-            link: {
-              label: "Pacotes e ingressos (Consulado do Turista)",
-              url: "https://www.consuladodoturista.com.br/hora-do-horror-hopi-hari-2026",
+              url: "https://drive.google.com/drive/u/2/folders/1cs_Fv8l21qsim53BFnPQgosNt9soG5Kk",
             },
           },
         ],

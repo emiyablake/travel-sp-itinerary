@@ -466,7 +466,7 @@ export default function Itinerario() {
             </div>
 
             <p className="mt-4 text-xs text-stone-500 dark:text-stone-400">
-              Vindas da tua lista salva no Maps — confirme endereço, nota e funcionamento antes.
+              lembre de confirmar endereço e horario de funcionamento antes.
             </p>
           </div>
         </section>
