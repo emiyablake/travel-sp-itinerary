@@ -397,7 +397,10 @@ export default function Itinerario() {
         <div className="mt-8 flex items-center justify-between text-sm">
           {selected > 0 ? (
             <button
-              onClick={() => setSelected(selected - 1)}
+              onClick={() => {
+                setSelected(selected - 1);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
               className="rounded-full border border-stone-300 bg-white px-4 py-1.5 font-medium hover:border-stone-500 dark:border-stone-700 dark:bg-stone-900 dark:hover:border-stone-400"
             >
               ← Dia {days[selected - 1].n}
@@ -407,7 +410,10 @@ export default function Itinerario() {
           )}
           {selected < days.length - 1 ? (
             <button
-              onClick={() => setSelected(selected + 1)}
+              onClick={() => {
+                setSelected(selected + 1);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
               className="rounded-full border border-stone-300 bg-white px-4 py-1.5 font-medium hover:border-stone-500 dark:border-stone-700 dark:bg-stone-900 dark:hover:border-stone-400"
             >
               Dia {days[selected + 1].n} →
